@@ -1,0 +1,206 @@
+{
+  "description": [
+    {
+      "language": "en",
+      "text": "Car/part Digital Twin"
+    }
+  ],
+  "displayName": [],
+  "globalAssetId": "urn:uuid:<digitalTwinId>",
+  "idShort": "<PART_NAME>",
+  "id": "<digitalTwinId>",
+  "specificAssetIds": [
+    {
+      "name": "manufacturerId",
+      "value": "BPNL00000003CSGV",
+      "externalSubjectId": {
+        "type": "ExternalReference",
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "BPNL00000003CSGV"
+          }
+        ]
+      }
+    },
+    {
+      "name": "partInstanceId",
+      "value": "<YOUR PART INSTANCE ID>",
+      "externalSubjectId": {
+        "type": "ExternalReference",
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "BPNL00000003CSGV"
+          }
+        ]
+      }
+    },
+    {
+      "name": "manufacturerPartId",
+      "value": "MPI7654",
+      "externalSubjectId": {
+        "type": "ExternalReference",
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "PUBLIC_READABLE"
+          },
+          {
+            "type": "GlobalReference",
+            "value": "BPNL00000003CSGV"
+          }
+        ]
+      }
+    },
+    {
+      "name": "digitalTwinType",
+      "value": "PartInstance",
+      "externalSubjectId": {
+        "type": "ExternalReference",
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "BPNL00000003CSGV"
+          }
+        ]
+      }
+    }
+  ],
+  "submodelDescriptors": [
+    {
+      "endpoints": [
+        {
+          "interface": "SUBMODEL-3.0",
+          "protocolInformation": {
+            "href": "<EDC_DATAPLANE_URL>/api/public/<digitalTwinSubmodelId>",
+            "endpointProtocol": "HTTP",
+            "endpointProtocolVersion": ["1.1"],
+            "subprotocol": "DSP",
+            "subprotocolBody": "id=urn:uuid:0c3d2db0-e5c6-27f9-5875-15a9a00e7a27;dspEndpoint=<EDC_CONTROLPLANE_URL>",
+            "subprotocolBodyEncoding": "plain",
+            "securityAttributes": [
+              {
+                "type": "NONE",
+                "key": "NONE",
+                "value": "NONE"
+              }
+            ]
+          }
+        }
+      ],
+      "idShort": "digitalProductPass",
+      "id": "<digitalTwinSubmodelId>",
+      "semanticId": {
+        "type": "ExternalReference",
+        "keys": [
+          {
+            "type": "Operation",
+            "value": "https://w3c.github.io/vc-jws-2020/contexts/v1/"
+          },
+          {
+            "type": "Submodel",
+            "value": "urn:samm:io.catenax.generic.digital_product_passport:5.0.0#DigitalProductPassport"
+          },
+          {
+            "type": "Entity",
+            "value": "https://www.w3.org/ns/credentials/v2"
+          },
+          {
+            "type": "DataElement",
+            "value": "urn:samm:io.catenax.dpp_verification.cdc:1.0.0#CertifiedDataCredential"
+          }
+        ]
+      },
+      "description": [
+        {
+          "language": "en",
+          "text": "Digital Product Pass Submodel"
+        }
+      ],
+      "displayName": []
+    },
+    {
+      "endpoints": [
+        {
+          "interface": "SUBMODEL-3.0",
+          "protocolInformation": {
+            "href": "<EDC_DATAPLANE_URL>/api/public/<BOMAsBuiltID>",
+            "endpointProtocol": "HTTP",
+            "endpointProtocolVersion": ["1.1"],
+            "subprotocol": "DSP",
+            "subprotocolBody": "id=urn:uuid:0c3d2db0-e5c6-27f9-5875-15a9a00e7a27;dspEndpoint=<EDC_CONTROLPLANE_URL>",
+            "subprotocolBodyEncoding": "plain",
+            "securityAttributes": [
+              {
+                "type": "NONE",
+                "key": "NONE",
+                "value": "NONE"
+              }
+            ]
+          }
+        }
+      ],
+      "idShort": "singleLevelBomAsBuilt",
+      "id": "<BOMAsBuiltID>",
+      "semanticId": {
+        "type": "ExternalReference",
+        "keys": [
+          {
+            "type": "Submodel",
+            "value": "urn:samm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt"
+          }
+        ]
+      },
+      "supplementalSemanticId": [],
+      "description": [
+        {
+          "language": "en",
+          "text": "DPP singleLevelBOMAsBuilt Submodel"
+        }
+      ],
+      "displayName": []
+    },
+    {
+      "endpoints": [
+        {
+          "interface": "SUBMODEL-3.0",
+          "protocolInformation": {
+            "href": "<EDC_DATAPLANE_URL>/api/public/<serialPartID>",
+            "endpointProtocol": "HTTP",
+            "endpointProtocolVersion": ["1.1"],
+            "subprotocol": "DSP",
+            "subprotocolBody": "id=urn:uuid:0c3d2db0-e5c6-27f9-5875-15a9a00e7a27;dspEndpoint=<EDC_CONTROLPLANE_URL>",
+            "subprotocolBodyEncoding": "plain",
+            "securityAttributes": [
+              {
+                "type": "NONE",
+                "key": "NONE",
+                "value": "NONE"
+              }
+            ]
+          }
+        }
+      ],
+      "idShort": "serialPart",
+      "id": "<serialPartID>",
+      "semanticId": {
+        "type": "ExternalReference",
+        "keys": [
+          {
+            "type": "Submodel",
+            "value": "urn:samm:io.catenax.serial_part:3.0.0#SerialPart"
+          }
+        ]
+      },
+      "supplementalSemanticId": [],
+      "description": [
+        {
+          "language": "en",
+          "text": "DPP serial part Submodel"
+        }
+      ],
+      "displayName": []
+    }
+  ]
+}

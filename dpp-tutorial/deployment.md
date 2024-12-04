@@ -20,6 +20,9 @@ SPDX-License-Identifier: CC-BY-4.0
 #######################################################################
 -->
 
+
+# [DEPRECATED]
+
 # DPP Application Installation
 
 This guide provides the information needed to setup the Digital product Passport (DPP) application as a data consumer. It describes how to run a local setup to leverage the DPP frontend and backend components using a container platform.
@@ -294,4 +297,5 @@ This work is licensed under the [CC-BY-4.0](https://creativecommons.org/licenses
 - SPDX-FileCopyrightText: 2024 CGI Deutschland B.V. & Co. KG
 - SPDX-FileCopyrightText: 2024 Contributors to the Eclipse Foundation
 - Source URL: https://github.com/eclipse-tractusx/digital-product-pass
+
 

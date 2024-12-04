@@ -155,10 +155,6 @@ The next step will be to register your data in a Data Service.
 
 This part provides the information needed to setup digital twin provisioning services as a data provider. Additionally, it enables you to create and register aspect models into the data service.
 
-## 1º Prepare Digital Product Pass Model
-
-In order to prepare aspect models, please follow the [aspect model guide](./aspect-model.md) 
-
 ## Add Aspect Model to the Submodel Server
 
 The data generated in previous step can be stored into the submode data service.
@@ -178,7 +174,7 @@ Substitute the `digitalTwinSubmodelId` for the generated UUID.
   <summary>Click to see the Windows command</summary>
 
 ```bash
-curl.exe -X POST "<Data_SERVICE_URL>/urn:uuid:<digitalTwinSubmodelId>" `
+curl.exe -v -X POST "<Data_SERVICE_URL>/urn:uuid:<digitalTwinSubmodelId>" `
     -H "Content-Type: application/json" `
     --data-binary "@<PATH_TO_YOUR_JSON>.json" 
 ```
@@ -204,7 +200,7 @@ Verify your data is registerd in the service
   <summary>Click to see the Windows command</summary>
 
 ```bash
-curl.exe -X POST "<Data_SERVICE_URL>/urn:uuid:<digitalTwinSubmodelId>" `
+curl.exe -v -X GET "<Data_SERVICE_URL>/urn:uuid:<digitalTwinSubmodelId>" `
     -H "Content-Type: application/json" 
 ```
 
@@ -255,7 +251,7 @@ After creation of the digital twin in previous step, add the twin into Digital T
   <summary>Click to see the Windows command</summary>
 
 ```bash
-curl.exe -X POST "<DIGITAL_TWIN_REGISTRY_URL>/shell-descriptors" `
+curl.exe -v -X POST "<DIGITAL_TWIN_REGISTRY_URL>/shell-descriptors" `
     -H "Content-Type: application/json" `
     --data-binary "@resources/<YOUR_DT_JSON>.json" 
 ```
@@ -299,7 +295,7 @@ Base64 Encoded: dXJuOnV1aWQ6M2Y4OWQwZDQtZTExYy1mODNiLTE2ZmQtNzMzYzYzZDRlMTIx
   <summary>Click to see the Windows command</summary>
 
 ```bash
-curl.exe -X GET "<DIGITAL_TWIN_REGISTRY_URL>/shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>" `
+curl.exe -v -X GET "<DIGITAL_TWIN_REGISTRY_URL>/shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>" `
 -H "Content-Type: application/json"
 ```
 </details>

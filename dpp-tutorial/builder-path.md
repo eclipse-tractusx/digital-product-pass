@@ -251,11 +251,8 @@ After creation of the digital twin in previous step, add the twin into Digital T
   <summary>Click to see the Windows command</summary>
 
 ```bash
-curl.exe -v -X POST "<DIGITAL_TWIN_REGISTRY_URL>/shell-descriptors" `
-    -H "Content-Type: application/json" `
-    --data-binary "@resources/<YOUR_DT_JSON>.json" 
+curl.exe -v -X POST "<DIGITAL_TWIN_REGISTRY_URL>/shell-descriptors" -H "Content-Type: application/json" -H "Edc-Bpn: BPNL00000003CSGV" --data-binary "@resources/<YOUR_DT_JSON>.json" 
 ```
-
 </details>
 
 
@@ -264,11 +261,8 @@ curl.exe -v -X POST "<DIGITAL_TWIN_REGISTRY_URL>/shell-descriptors" `
   <summary>Click here to see the Mac & Linux command</summary>
 
 ```bash
-curl --location --request POST '<DIGITAL_TWIN_REGISTRY_URL>/shell-descriptors' \
---header 'Content-Type: application/json' \
---data '@resources/<YOUR_DT_JSON>.json'
+curl --location --request POST '<DIGITAL_TWIN_REGISTRY_URL>/shell-descriptors' --header 'Content-Type: application/json' --header "Edc-Bpn: BPNL00000003CSGV" --data '@resources/<YOUR_DT_JSON>.json'
 ```
-
 </details>
 
 > [!Note] 
@@ -295,8 +289,7 @@ Base64 Encoded: dXJuOnV1aWQ6M2Y4OWQwZDQtZTExYy1mODNiLTE2ZmQtNzMzYzYzZDRlMTIx
   <summary>Click to see the Windows command</summary>
 
 ```bash
-curl.exe -v -X GET "<DIGITAL_TWIN_REGISTRY_URL>/shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>" `
--H "Content-Type: application/json"
+curl.exe -v -X GET "<DIGITAL_TWIN_REGISTRY_URL>/shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>" -H "Content-Type: application/json" -H "Edc-Bpn: BPNL00000003CSGV"
 ```
 </details>
 
@@ -305,8 +298,7 @@ curl.exe -v -X GET "<DIGITAL_TWIN_REGISTRY_URL>/shell-descriptors/<DIGITAL_TWIN_
   <summary>Click here to see the Mac & Linux command</summary>
 
 ```bash
-curl --location --request GET '<DIGITAL_TWIN_REGISTRY_URL>/shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>' \
---header 'Content-Type: application/json'
+curl --location --request GET '<DIGITAL_TWIN_REGISTRY_URL>/shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>' --header 'Content-Type: application/json' --header 'Edc-Bpn: BPNL00000003CSGV'
 ```
 
 </details>
@@ -349,9 +341,7 @@ In case of error, you can always modify your digital twin using the following co
   <summary>Click to see the Windows command</summary>
 
 ```bash
-curl.exe -Method Put -Uri "<DIGITAL_TWIN_REGISTRY_URL>/shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>" `
-    -ContentType "application/json" `
-    -InFile "resources\<YOUR_DT_JSON>.json"
+curl.exe -v -X PUT "<DIGITAL_TWIN_REGISTRY_URL>/shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>" -H "Content-Type: application/json" -H "Edc-Bpn: BPNL00000003CSGV" --data-binary "@<YOUR_DT_JSON>.json" 
 ```
 </details>
 
@@ -360,16 +350,11 @@ curl.exe -Method Put -Uri "<DIGITAL_TWIN_REGISTRY_URL>/shell-descriptors/<DIGITA
   <summary>Click here to see the Mac & Linux command</summary>
 
 ```bash
-curl --location --request PUT '<DIGITAL_TWIN_REGISTRY_URL>/shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>' \
---header 'Content-Type: application/json' \
---data '@resources/<YOUR_DT_JSON>.json'
+curl --location --request PUT '<DIGITAL_TWIN_REGISTRY_URL>/shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>' --header 'Content-Type: application/json' --header "Edc-Bpn: BPNL00000003CSGV" --data '@resources/<YOUR_DT_JSON>.json'
 ```
-
 </details>
 
 If everything works fine, then you have reached the end of data provisioning guide.
-
-
 
 
 Congratulations, you have successfully setup the data provider. It is now available and ready to exchange data in the dataspace.

@@ -125,9 +125,17 @@ Example Response:
 
 ### Step 1.3 Issue the Verifiable Credentials
 
-- Copy the DPP aspect model from the Step 2.1.1 and replace `<DPP_JSON_PAYLOAD_OBJECT>` with the payload that you copied.
+- Copy the DPP aspect model API response from the Step 2.1.2 and replace `<DPP_JSON_PAYLOAD_OBJECT>` with the payload that you copied.
 
 - Subsitute `<DPP_PROVIDER_WALLET_URL>` with its value  given in a paper.
+
+- Execute the API call.
+
+### Step 1.4 Update Verifiable Aspect in Submodel Server
+
+- Copy the API response from the Step 1.3 and replace `<PASTE_RESPONSE_FROM_STEP_1.3>` with the payload that you copied.
+
+- Subsitute the url placeholders: `<DATA_SERVICE_URL>` from the given paper and `<digitalTwinSubmodelId>` which was used in step 2.1.1 in the collection
 
 - Execute the API call.
 
@@ -136,9 +144,9 @@ Example Response:
 
 ### Verify the Proof
 
-- Copy the response from the [Step 1.3](#step-13-issue-the-verifiable-credentials)
+- Copy the Json response from the API Step 1.3 in insomnia collection
 
-- Paste the response and replace `<PASTE_RESPONSE_FROM_STEP_1.3>`
+- Paste the response and replace `<PASTE_RESPONSE_FROM_STEP_1.4>`
 
 - Execute the API call.
 

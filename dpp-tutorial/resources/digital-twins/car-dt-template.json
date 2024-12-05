@@ -73,7 +73,7 @@
         {
           "interface": "SUBMODEL-3.0",
           "protocolInformation": {
-            "href": "<EDC_DATAPLANE_URL>/api/public/<digitalTwinSubmodelId>",
+            "href": "<EDC_DATAPLANE_URL>/api/public/urn:uuid:<digitalTwinSubmodelId>",
             "endpointProtocol": "HTTP",
             "endpointProtocolVersion": ["1.1"],
             "subprotocol": "DSP",
@@ -90,7 +90,7 @@
         }
       ],
       "idShort": "digitalProductPass",
-      "id": "<digitalTwinSubmodelId>",
+      "id": "urn:uuid:<digitalTwinSubmodelId>",
       "semanticId": {
         "type": "ExternalReference",
         "keys": [

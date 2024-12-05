@@ -77,7 +77,7 @@
             "endpointProtocol": "HTTP",
             "endpointProtocolVersion": ["1.1"],
             "subprotocol": "DSP",
-            "subprotocolBody": "id=urn:uuid:0c3d2db0-e5c6-27f9-5875-15a9a00e7a27;dspEndpoint=<EDC_CONTROLPLANE_URL>",
+            "subprotocolBody": "id=urn:uuid:9dc73b86-ef48-4cb9-b63e-4a392f04ecf1;dspEndpoint=<EDC_CONTROLPLANE_URL>",
             "subprotocolBodyEncoding": "plain",
             "securityAttributes": [
               {

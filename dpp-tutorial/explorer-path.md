@@ -58,6 +58,12 @@ In this step, you'll create the Digital Product Passport (DPP) by utilizing data
 
 ### Aspect Model Creation
 
+Now, you replace the data from your sheet into the Aspect Model template. This step is crucial because it ensures that your specific car part is properly registered and exists as an Aspect Model in the system.
+
+In a real production environment, this process would typically be automated by your systems. However, for this tutorial, you are manually mapping the data to understand how the correct information about your part will later be linked to the Digital Product Passport (DPP).
+
+By completing this step, you ensure that the part data is accurate and ready to be associated with the DPP, which is vital for traceability and the integrity of the overall process..
+
 You will get your information in a paper:
 
 Example:
@@ -87,13 +93,6 @@ Example:
 > To easily find your data digitally, refer to <a href="./resources/test-data/carParts.json" target="_blank" rel="noopener noreferrer">this JSON file</a>, which contains all elements.
 > You can search for your car part (identified by `ID (uuid)` on the sheet) using
 > - with `CTRL + F` on Windows or `CMD + F` on MacOS/Linux 
-
-Now, you replace the data from your sheet into the Aspect Model template. This step is crucial because it ensures that your specific car part is properly registered and exists as an Aspect Model in the system.
-
-In a real production environment, this process would typically be automated by your systems. However, for this tutorial, you are manually mapping the data to understand how the correct information about your part will later be linked to the Digital Product Passport (DPP).
-
-By completing this step, you ensure that the part data is accurate and ready to be associated with the DPP, which is vital for traceability and the integrity of the overall process..
-
 
 In Insomnia, locate the request labeled `Step 2.1.1 Create Aspect Model` and switch to the **Body** tab.
 
@@ -165,10 +164,6 @@ The Digital Twin Registry is required to manage and store Digital Twins (DT) in 
 
 The Data Service is a crucial component for storing the payloads of Digital Product Passports in plain JSON format. This service should already be running and ready to accept data submissions. It acts as the backend repository where all passport-related information is securely stored and easily retrievable.
 
-
-> [!CAUTION]
->  The UUID should be written in the format: 6fb9a71b-aee6-4063-a82e-957022aeaa7a
-
 ---
 
 ### Step 2.1: Register the Aspect Model
@@ -185,7 +180,7 @@ Example:
 <DATA_SERVICE_URL>/urn:uuid:f10c0181-ce80-4139-81f0-a59226c88bfe
 ```
 
-4. Replace `<DIGITAL_TWIN_REGISTRY_URL>` with he data service url provided
+4. Replace `<DATA_SERVICE_URL>` with the data service url provided
 
 5. Send the **POST** request
 
@@ -193,7 +188,7 @@ Example:
 
 6. To verify the registration:
 - Use the Insomnia request labeled `Step 2.1.2 Verify the Creation`.
-- Replace <digitalTwinSubmodelId> with your actual UUID from the datasheet.
+- Replace <digitalTwinSubmodelId> with the generated UUID. 
 - Send the request. A 200 OK response confirms that the data has been registered successfully.
 - Optionally: Cross-check that the modified data in the response body matches the data you manipulated earlier.
 
@@ -201,14 +196,11 @@ Example:
 
 ### Step 2.2 
 
-Now we actually will create the digitil Twin.
+Now we actually will create the digital Twin.
 
 1. Open the Insomnia request labeled `Step 2.2.1 Create Digital Twin"`.
 
-> [!NOTE]
-> This request uses the template provided in <a href="./resources/digital-twins/example-dt.json" target="_blank" rel="noopener noreferrer">resources/digital-twins/example-dt.json</a>.
-
-2. Replace `<DATA_SERVICE_URL>` with he data service url provided
+2. Replace `<DIGITAL_TWIN_REGISTRY_URL>` with the data service url provided
 
 3. Switch to the Body tab and replace the following placeholders:
 
@@ -216,7 +208,7 @@ Now we actually will create the digitil Twin.
 <PART_INSTANCE_ID>                     ->   the value of part instance written on datasheet
 <PART_NAME>                            ->   the part number is written on the datasheet from a part
 <digitalTwinId>                        ->   the UUID written on datasheet
-<digitalTwinSubmodelId>                ->   the UUID generated the step ago
+<digitalTwinSubmodelId>                ->   the UUID generated in the previous step
 ```
 
 
@@ -231,7 +223,7 @@ Now we actually will create the digitil Twin.
 > - The other is used as `"globalAssetId"`
 
 4. Send the POST request to add the Digital Twin to the Digital Twin Registry (DTR).
-- A successful request will return a `201 Created` response, which confirms that the Digitil Twin has been created successfully.
+- A successful request will return a `201 Created` response, which confirms that the Digital Twin has been created successfully.
 
 > [!NOTE]  
 > Every physical part of vehicle is represented by a Digital Twin object. A car is manufactured with plenty of digital twins.
@@ -241,17 +233,17 @@ Now we actually will create the digitil Twin.
 ### Step 2.2.2: Verify the Digital Twin Registration
 
 1. Use the Insomnia request labeled `"Step 2.2.2 Verify the Creation"`.
-2. Replace `<DIGITAL_TWIN_ID_BASE64_ENCODED>` `with` the Base64-encoded version of the Digital Twin ID.
-- You can encode your Digital Twin ID using this <a href="https://www.base64encode.org/Base64" target="_blank" rel="noopener noreferrer"> Encoder</a>
+2. Replace `<DIGITAL_TWIN_ID_BASE64_ENCODED>` `with` the Base64-encoded version of the `digitalTwinId`.
+- You can encode your `digitalTwinId` using this <a href="https://www.base64encode.org/Base64" target="_blank" rel="noopener noreferrer"> Encoder</a>
 
 Example:
 
 ```bash
-Digital Twin Id (UUID): 3f89d0d4-e11c-f83b-16fd-733c63d4e121
+digitalTwinId (UUID): 3f89d0d4-e11c-f83b-16fd-733c63d4e121
 Base64 Encoded: dXJuOnV1aWQ6M2Y4OWQwZDQtZTExYy1mODNiLTE2ZmQtNzMzYzYzZDRlMTIx
 ```
 
-3. Replace <UUID-1_BASE64_ENCODED> in the following URL:
+3. Replace `<DIGITAL_TWIN_REGISTRY_URL>` and `<UUID-1_BASE64_ENCODED>` in the following URL:
 
 ```bash
 <DIGITAL_TWIN_REGISTRY_URL>/shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>
@@ -261,7 +253,7 @@ Base64 Encoded: dXJuOnV1aWQ6M2Y4OWQwZDQtZTExYy1mODNiLTE2ZmQtNzMzYzYzZDRlMTIx
 
 ---
 
-### Step 2.3
+### Step 2.3 Optional: 
 
 If you encounter an error or need to update the Digital Twin, you can use the Insomnia request labeled `Step 2.3 Modify Digital Twin` to make changes.
 

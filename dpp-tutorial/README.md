@@ -143,7 +143,35 @@ In this phase, you as a consumer, will access the Digital Product Pass (DPP) con
     * Look for the Product Carbon Footprint (PCF) information for each of the specific car part
    
     * Sum up the PCF values of all individual parts to obtain the aggregate Carbon Footprint value for the entire car.
-  
+
+## Phase 3: Data Certification & Verification
+
+##### Duration: 10 mins
+
+In order to Certify your Digital Product Passport please follow this instructions, [dpp-verification guide](./verification.md).
+
+Once you are done, please repeat the [Phase 2: Data Consumption](#phase-2-data-consumption).
+Scan the QR code and check if you are able to verify your passport with the application.
+
+If everything went well you will be able to see the verification statement in the top right:
+
+![Verification Statement](./resources/screenshots/verification-statement.png)
+
+If you click in the button:
+
+![verification](./resources/screenshots/verification-button.png)
+
+You will see:
+
+![alt text](./resources/screenshots/verification-details.png)
+
+Which are the details, you can see the signature, how created and when + much more!
+
+**Now is the question: What do you trust more?**
+
+- [ ] The one that was certified and has a valid signature proofing that the person that made it was the one that made it, in a specific time, and the data integrity was mathematically validated.
+- [ ] The one that was a plain unverifiable plain JSON file.
+
 ## Final Challenge: Car Passport
 
 Group name is defined like this:

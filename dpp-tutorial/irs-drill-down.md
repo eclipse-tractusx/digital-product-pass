@@ -1,25 +1,23 @@
-<!-- 
-  Tractus-X - Digital Product Passport Application 
- 
-  Copyright (c) 2022, 2024 BMW AG, Henkel AG & Co. KGaA
-  Copyright (c) 2023, 2024 CGI Deutschland B.V. & Co. KG
-  Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
+<!--
+#######################################################################
 
-  See the NOTICE file(s) distributed with this work for additional
-  information regarding copyright ownership.
- 
-  This program and the accompanying materials are made available under the
-  terms of the Apache License, Version 2.0 which is available at
-  https://www.apache.org/licenses/LICENSE-2.0.
- 
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
-  either express or implied. See the
-  License for the specific language govern in permissions and limitations
-  under the License.
- 
-  SPDX-License-Identifier: Apache-2.0
+Tractus-X - Digital Product Pass Application 
+
+Copyright (c) 2024 BMW AG
+Copyright (c) 2024 CGI Deutschland B.V. & Co. KG
+Copyright (c) 2024 Contributors to the Eclipse Foundation
+
+See the NOTICE file(s) distributed with this work for additional
+information regarding copyright ownership.
+
+This work is made available under the terms of the
+Creative Commons Attribution 4.0 International (CC-BY-4.0) license,
+which is available at
+https://creativecommons.org/licenses/by/4.0/legalcode.
+
+SPDX-License-Identifier: CC-BY-4.0
+
+#######################################################################
 -->
 
 # Introduction
@@ -313,9 +311,9 @@ curl --location '<DATA_SERVICE_URL>/<SerialPartID>' \
 </details>
 
 
-## 6° Attach BOMAsBuilt to Existing Digital Twin
+## 6° Add BOMAsBuilt and SerialPart to Existing Digital Twin
 
-* Get existing digital Twin by Base64 encoded digital twin Id
+* To get the existing digital twin, get your part Id from the given paper and encode it into Base64.
 
 The digital twin registered can be checked/verified from the following command:
 
@@ -362,7 +360,6 @@ Example JSON response:
     "id": "urn:uuid:a530baad-77ad-4ffc-a925-f3a207839791",
     "specificAssetIds": [
         {
-            "supplementalSemanticIds": [],
             "name": "manufacturerPartId",
             "value": "MPI7654",
             "externalSubjectId": {
@@ -377,64 +374,145 @@ Example JSON response:
         }
     ],
     "submodelDescriptors": [
-        {
-            "endpoints": [
-                { ... }
-            ]
-        }
+      {
+        "endpoints": [
+            {
+                "interface": "SUBMODEL-3.0",
+                "protocolInformation": {
+                    ...
+                }
+            }
+        ],
+        "idShort": "digitalProductPass",
+        "id": "urn:uuid:d2e47115-c430-4145-bbde-1c743804a379",
+        ...
+      }
     ]
 }
 ```
 
-Copy the actual json response and paste it into the notepad editor. You will need the values later.
+- Search for the `submodelDescriptors` array. We need to add more elements to the submodelDescriptors array.
 
-### Update Digital Twin
+- Copy your response and add the following json content into the submodelDescriptors array:
+
+```json
+{
+    "endpoints": [
+    {
+        "interface": "SUBMODEL-3.0",
+        "protocolInformation": {
+        "href": "<EDC_DATAPLANE_URL>/api/public/<BOMAsBuiltID>",
+        "endpointProtocol": "HTTP",
+        "endpointProtocolVersion": ["1.1"],
+        "subprotocol": "DSP",
+        "subprotocolBody": "id=urn:uuid:0c3d2db0-e5c6-27f9-5875-15a9a00e7a27;dspEndpoint=<EDC_CONTROLPLANE_URL>",
+        "subprotocolBodyEncoding": "plain",
+        "securityAttributes": [
+            {
+            "type": "NONE",
+            "key": "NONE",
+            "value": "NONE"
+            }
+        ]
+        }
+    }
+    ],
+    "idShort": "singleLevelBomAsBuilt",
+    "id": "<BOMAsBuiltID>",
+    "semanticId": {
+    "type": "ExternalReference",
+    "keys": [
+        {
+        "type": "Submodel",
+        "value": "urn:samm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt"
+        }
+    ]
+    },
+    "description": [
+    {
+        "language": "en",
+        "text": "DPP singleLevelBOMAsBuilt Submodel"
+    }
+    ],
+    "displayName": []
+},
+{
+    "endpoints": [
+    {
+        "interface": "SUBMODEL-3.0",
+        "protocolInformation": {
+        "href": "<EDC_DATAPLANE_URL>/api/public/<serialPartID>",
+        "endpointProtocol": "HTTP",
+        "endpointProtocolVersion": ["1.1"],
+        "subprotocol": "DSP",
+        "subprotocolBody": "id=urn:uuid:0c3d2db0-e5c6-27f9-5875-15a9a00e7a27;dspEndpoint=<EDC_CONTROLPLANE_URL>",
+        "subprotocolBodyEncoding": "plain",
+        "securityAttributes": [
+            {
+            "type": "NONE",
+            "key": "NONE",
+            "value": "NONE"
+            }
+        ]
+        }
+    }
+    ],
+    "idShort": "serialPart",
+    "id": "<serialPartID>",
+    "semanticId": {
+    "type": "ExternalReference",
+    "keys": [
+        {
+        "type": "Submodel",
+        "value": "urn:samm:io.catenax.serial_part:3.0.0#SerialPart"
+        }
+    ]
+    },
+    "description": [
+    {
+        "language": "en",
+        "text": "DPP serial part Submodel"
+    }
+    ],
+    "displayName": []
+}
+```	
+
+- Substitute the corresponding placeholders **<BOMAsBuiltID<BOMAsBuiltID>>**  and **<SerialPart<SerialPart>>** with their Ids generated in [step 1](#1-generate-the-ids).
 
 
-Attach the following **SingleLevelBOMAsBuilt** and **SerialPart** aspects to the existing Digital Twin object that you retrieved and substitute the corresponding placeholders **<BOMAsBuiltID<BOMAsBuiltID>>**  and **<SerialPart<SerialPart>>** with their Ids generated in [step 1](#1-generate-the-ids).
-
-Example to find the placeholders:
-
-1 - Get access to the file [example-dt-irs](./resources/digital-twins/example-dt-irs.json)
-
-2 - Get the placeholders from the below table and search with CTRL + F in [example-dt-irs](./resources/digital-twins/example-dt-irs.json):
-
-3 - Substitute the following placeholders with their values. The values you will get them from the existing digital twin object that was retrieved.
-
-
-| Placeholder                    | Path                                                            |
-|-------------------------       |-----------------------------------------------------------------|
-| <digitalTwinId<digitalTwinId>> | globalAssetId                                                   |
-|                                | id                                                              |               
-| <PART_NAME>                    | idShort                                                         |
-| <YOUR PART INSTANCE ID<y>>     | specificAssetIds[1].value                                       |
-| <EDC_DATAPLANE_URL>            | submodelDescriptors[0].endpoints[0].protocolInformation.href    |          
-|                                | submodelDescriptors[1].endpoints[0].protocolInformation.href    |            
-|                                | submodelDescriptors[2].endpoints[0].protocolInformation.href    |
-| <digitalTwinSubmodelId<y>>     | submodelDescriptors[0].endpoints[0].protocolInformation.href    |
-|                                | submodelDescriptors[0].id                                       | 
-| <EDC_CONTROLPLANE_URL>         | submodelDescriptors[0].endpoints[0].subprotocolBody             |         
-|                                | submodelDescriptors[1].endpoints[0].subprotocolBody             | 
-|                                | submodelDescriptors[2].endpoints[0].subprotocolBody             | 
-| <BOMAsBuiltID<BOMAsBuiltID>>   | submodelDescriptors[1].endpoints[0].protocolInformation.href    |         
-|                                | submodelDescriptors[1].id                                       |
-| <serialPartID<serialPartID>>   | submodelDescriptors[2].endpoints[0].protocolInformation.href    |         
-|                                | submodelDescriptors[2].id                                       |       
-
-> [!TIP]
-> The table shows number of occurences of a specific property, for example <digitalTwinId<y>> has two occurences: `globalAssetId` and `id`
-
+> [!IMPORTANT]
+> `<EDC_CONTROLLANE_URL>` and `<EDC_DATAPLANE_URL>` are given in a paper
 
 > [!CAUTION]
-> Please make sure that you substitute all the placeholders with their values from the above table
+> Please make sure that you substitute all the placeholders with their values
 
-> Please only use your assigned UUID from [here](./resources/test-data/carParts.json) that matches the UUID on the given paper
+- Search for the `supplementalSemanticId` keyword (if any) and remove that line. 
 
-4 - Save your modified digital twin in json format.
+- Save your changes to a json file.
 
-Now, you can update the modified digital twin object using the following command:
+
+### Update Digital Twin with BOMAsBuilt and SerialPart Submodels
+
+Update the digital twin submodel using the following command:
 
 > PUT /shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>
+
+*Windows*
+<details>
+  <summary>Click to see the Windows command</summary>
+
+```bash
+curl.exe -v -X PUT "<DIGITAL_TWIN_REGISTRY_URL>/shell-descriptors/<DIGITAL_TWIN_ID_BASE64_ENCODED>" `
+    -H "Content-Type: application/json"
+    --data-binary "@<YOUR_JSON_FILE>.json"`"
+```
+
+</details>
+
+*Mac & Linux*
+<details>
+  <summary>Click here to see the Mac & Linux command</summary>
 
 *Windows*
 <details>
@@ -458,5 +536,6 @@ curl --location --request PUT '<DIGITAL_TWIN_REGISTRY_URL>/shell-descriptors/<DI
 --data '@resources/<YOUR_DT_JSON>.json'
 ```
 </details>
+
 
 Congratulations, you have successfully attached BOMAsBuilt relationships and serial part to the existing Digital Twin object.

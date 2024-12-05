@@ -47,7 +47,7 @@ Introduce the DPP Application host url in the browser:
 
 ```bash
 
-https://<dpp-hostname-url>
+https://<DPP_APP _URL>
 
 ```
 
@@ -55,7 +55,7 @@ You will be redirected to:
 
 ```bash
 
-https://<dpp-hostname-url>/passport
+https://<DPP_APP _URL>/passport
 
 ```
 
@@ -64,16 +64,15 @@ And a login page from Catena-X will pop up. To perform the login follow this ste
 ### 1º Introduce Company Name
 
 ```
-CX-Test-Access
+CX-Operator
 ```
-
-![image](https://github.com/eclipse-tractusx/digital-product-pass/assets/71728767/60e5d9df-7149-43af-a8a2-0b8d0b8809e3)
+![image](./resources/screenshots/dc_introduce_company_name.png)
 
 ### 2º Introduce Test Credentials
 
 The credentials will be provided in the workshop
 
-![image](https://github.com/eclipse-tractusx/digital-product-pass/assets/71728767/435493f4-2ad5-4708-a9ad-7e119b4508e8)
+![image](./resources/screenshots/dc_test_credentials.png)
 
 
 ### 3º A Search by ID
@@ -84,7 +83,7 @@ Change the `<manufacturerPartId>` and `<partInstanceId>` to the actual values in
 CX:<manufacturerPartId>:<partInstanceId>
 ```
 
-![Introduce Id](./resources/screenshots/id-search.png)
+![Introduce Id](./resources/screenshots/dc_search_by_id.png)
 
 And click in "SEARCH" to start the search process!
 

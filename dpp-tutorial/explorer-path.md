@@ -172,7 +172,7 @@ The Data Service is a crucial component for storing the payloads of Digital Prod
 - Visit  <a href="https://www.uuidgenerator.net/version4" target="_blank" rel="noopener noreferrer">this UUID Generator</a> to generate an additional UIID
 - This newly generated UUID will serve as the `digitalTwinSubmodelId`, which plays a crucial role in linking the Aspect Model to the Digital Product Passport (DPP) and will be important in later steps.
 2. In the Insomnia App, locate the request labeled `Step 2.1.1 Create Aspect Model`.
-3. Replace `<digitalTwinSubmodelId>` with the new generated UUID, as shown in the example
+3. Replace in the URL of the request the parameter `<digitalTwinSubmodelId>` with the new generated UUID, as shown in the example:
 
 Example:
 

@@ -26,7 +26,7 @@ SPDX-License-Identifier: CC-BY-4.0
 
 
 #### Get Digital Twin Id
-- Get the `<DIGITAL_TWIN_ID_BASE64_ENCODED>` from step 2.2.2 from Insomnia collection and store it in notepad editor for later use.
+- Get the `<DIGITAL_TWIN_ID_BASE64_ENCODED>` from step 2.2.2 from this [Insomnia collection](./resources/explorer_payload/01%20Tractus-X%20Community%20Days.postman_collection.json) and store it in notepad editor for later use.
 
 #### Get Submodel Id
 - Search for the `digitalProductPass` keyword from the existing digital twin submodel
@@ -40,11 +40,11 @@ Navigate to the DPP-Verification directory in insomnia and follow the steps
 
 ### Step 1.1 Get the Submodel
 
-- Subsitute `<DIGITAL_TWIN_ID_BASE64_ENCODED>` with base64 encoded Digital Twin Id from [here](#get-digital-twin-id).
+- Substitute `<DIGITAL_TWIN_ID_BASE64_ENCODED>` with base64 encoded Digital Twin Id from [here](#get-digital-twin-id).
 
-- Subsitute `<DIGITAL_TWIN_SUBMODEL_ID_BASE64_ENCODED>` with base64 encoded Id from [here](#get-submodel-id).
+- Substitute `<DIGITAL_TWIN_SUBMODEL_ID_BASE64_ENCODED>` with base64 encoded Id from [here](#get-submodel-id).
 
-- Subsitute `<DIGITAL_TWIN_REGISTRY_URL>` with its value from the given paper.
+- Substitute `<DIGITAL_TWIN_REGISTRY_URL>` with its value from the given paper.
 
 - Execute the API call.
 
@@ -115,42 +115,32 @@ Example Response:
 }
 ```
 
-- Subsitute `<DIGITAL_TWIN_ID_BASE64_ENCODED>` with base64 encoded Digital Twin Id from [here](#get-digital-twin-id).
+- Substitute `<DIGITAL_TWIN_ID_BASE64_ENCODED>` with base64 encoded Digital Twin Id from [here](#get-digital-twin-id).
 
-- Subsitute `<DIGITAL_TWIN_SUBMODEL_ID_BASE64_ENCODED>` with base64 encoded Id from [here](#get-submodel-id).
+- Substitute `<DIGITAL_TWIN_SUBMODEL_ID_BASE64_ENCODED>` with base64 encoded Id from [here](#get-submodel-id).
 
-- Subsitute `<DIGITAL_TWIN_REGISTRY_URL>` with its value from the given paper.
+- Substitute `<DIGITAL_TWIN_REGISTRY_URL>` with its value from the given paper.
 
 - Execute the API call.
 
 ### Step 1.3 Issue the Verifiable Credentials
 
-- Copy the DPP aspect model API response from the Step 2.1.2 and replace `<DPP_JSON_PAYLOAD_OBJECT>` with the payload that you copied.
+- Copy the DPP aspect model which you created at the beginning at the aspect model creation step (Step 2.1.1 for Explorers) and replace `<DPP_JSON_PAYLOAD_OBJECT>` with the payload that you copied.
 
-- Subsitute `<DPP_PROVIDER_WALLET_URL>` with its value  given in a paper.
-
-- Execute the API call.
-
-### Step 1.4 Update Verifiable Aspect in Submodel Server
-
-- Copy the API response from the Step 1.3 and replace `<PASTE_RESPONSE_FROM_STEP_1.3>` with the payload that you copied.
-
-- Subsitute the url placeholders: `<DATA_SERVICE_URL>` from the given paper and `<digitalTwinSubmodelId>` which was used in step 2.1.1 in the collection
+- Substitute `<DPP_PROVIDER_WALLET_URL>` with its value given in a paper.
 
 - Execute the API call.
 
 
-## Verification Section
+### Step 1.4 Verify the Proof
 
-### Verify the Proof
-
-- Copy the Json response from the API Step 1.3 in insomnia collection
+- Copy the JSON response from the API Step 1.3 in insomnia collection
 
 - Paste the response and replace `<PASTE_RESPONSE_FROM_STEP_1.4>`
 
 - Execute the API call.
 
-If everything works, you will get the following response. 
+If everything works, you will get the following response: 
 
 ```json
 {
@@ -161,5 +151,16 @@ If everything works, you will get the following response.
 
 - To see the proof in the application, scan the QR code again or introduce ID in the app.
 
-Congratulations! You have successfully added a verifible credential to the Digital Product Passport.
+## Step 1.5 Store the Certified Digital Product Passport
 
+Now that you have successfully managed to `issue/certify a Digital Product Passport` in an own wallet as a provider role and `Verify the integrity of the Digital Product Passport` from a consumer role, also using an own consumer wallet, you shall update the JSON at the data storage:
+
+- Copy the API response from the Step 1.3 and replace `<PASTE_RESPONSE_FROM_STEP_1.3>` with the payload that you copied.
+
+- Substitute the URL placeholders: `<DATA_SERVICE_URL>` from the given paper and `<digitalTwinSubmodelId>` which was used in step 2.1.1 in the collection
+
+- Execute the API call.
+
+Congratulations! You have successfully certified your Digital Product Passport and updated it in the data storage.
+
+Please go back to the [Phase 3 at the main README guide](../README.md#phase-3-data-certification--verification), and scan again your QR code to see the verification status at the application.

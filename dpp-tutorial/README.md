@@ -35,7 +35,13 @@ Company-X has manufactured cars for the market in Germany. The cars were built u
 
 You are one of the suppliers from Company-X. To maintain your client, you are required to create a Digital Product Pass for your Part, so that Company-X can  obtain the total PCF value from its car. Creating a Car Digital Product Pass and fulfilling the sustainability regulations imposed in the inspection.
 
-## Pre-Requisites
+## Pre-Requisites [ONSITE at the Worksession]
+  * Computer with following programs installed:
+    * [Insomnia](https://insomnia.rest) > Create an account to be able to import collections.
+  * Mobile Phone with Browser (for scanning QR codes)
+
+
+## Pre-Requisites [ONLINE]
 
   * Kubernetes 1.19+
   * Helm 3.2.0+
@@ -49,8 +55,9 @@ You are one of the suppliers from Company-X. To maintain your client, you are re
   * Discovery Service
   * Printer (for printing QR codes)
   * Mobile Phone with Browser (for scanning QR codes) 
+  * Insomnia
 
-
+  
 ## Preparation
 
 Split into groups of five individuals, ensuring each group receives a sheet of paper containing a distinct Part from the  [test-data](./resources/test-data/carParts.json).

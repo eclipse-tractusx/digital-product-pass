@@ -22,14 +22,34 @@ SPDX-License-Identifier: CC-BY-4.0
 
 
 <div align="center">
-  <img alt="DPP Verificaion Logo" src="./resources/verification-logo.png" width="350" height="350">
+  <hr style="border:1px solid red;width:80%;margin:20px 0;">
+
+  <h1 style="color:red;">🚨 THIS DOCUMENTATION IS DEPRECATED 🚨</h1>
+  <h2 style="color:red;">Please see the latest docs here:</h2>
+  <a href="https://eclipse-tractusx.github.io/docs-kits/next/kits/data-trust-and-security-kit/adoption-view">
+    👉 https://eclipse-tractusx.github.io/docs-kits/next/kits/data-trust-and-security-kit/adoption-view
+  </a>
+  <br><br><br>
+</div>
+
+> [!WARNING]
+> Not all the documentation was migrated to the Data Trust & Security KIT, this documentation was a PoC developed during the first Catena-X consortia, and can be used to verify and validate DPP contents. The Data Trust & Security gets inspired on this PoC and scales for all the Aspect Models in Tractus-X the possibility to do Verification and Validation of data (ex, PCF, Certificates, etc). More information about this PoC can also be found in the [Data Trust & Security KIT DPP Verification Success Story](https://eclipse-tractusx.github.io/docs-kits/next/kits/data-trust-and-security-kit/success-stories/dpp-verification-success-story)
+
+<div align="center">
+  <img alt="DPP Verification Logo" src="./resources/verification-logo.png" width="350" height="350">
+
   <br><br>
-  <img alt="Version:  v2.1" src="https://img.shields.io/badge/Version-v2.1-blue?style=for-the-badge">
-  <img alt="STATUS: RELEASED" src="https://img.shields.io/badge/Status-Released-8A2BE2?style=for-the-badge">
+
+  <img alt="Version: v2.1" src="https://img.shields.io/badge/Version-v2.1-blue?style=for-the-badge">
+  <img alt="STATUS: DEPRECATED" src="https://img.shields.io/badge/⚠️%20Status-Deprecated-FF0000?style=for-the-badge&logo=github">
+
   <h3> A Catena-X Data Certification/Verification Framework </h3>
   <h1> Digital Product Pass Verification Add-on </h1>
-  
+
 </div>
+
+> [!WARNING]
+> Not all the documentation was migrated to the KIT</h4>
 
 # Metadata
 

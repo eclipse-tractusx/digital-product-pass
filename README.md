@@ -29,7 +29,7 @@ SPDX-License-Identifier: CC-BY-4.0
 
   <h1 style="color:red;">🚨 THIS REPOSITORY IS DEPRECATED 🚨</h1>
   <h2 style="color:red;">More information regarding our deprecation TRG 7.09 </h2>
-  <a href="[https://eclipse-tractusx.github.io/docs-kits/next/kits/data-trust-and-security-kit/adoption-view](https://eclipse-tractusx.github.io/docs/release/trg-7/trg-7-09)">
+  <a href="https://eclipse-tractusx.github.io/docs/release/trg-7/trg-7-09)">
     👉 https://eclipse-tractusx.github.io/docs/release/trg-7/trg-7-09
   </a>
 
@@ -183,4 +183,5 @@ As for any pre-built image usage, it is the image user's responsibility to ensur
 [license-url-non-code]: https://github.com/eclipse-tractusx/digital-product-pass/blob/main/LICENSE_non-code
 [release-shield]: https://img.shields.io/github/v/release/eclipse-tractusx/digital-product-pass.svg?style=for-the-badge
 [release-url]: https://github.com/eclipse-tractusx/digital-product-pass/releases
+
 

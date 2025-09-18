@@ -40,7 +40,10 @@ SPDX-License-Identifier: CC-BY-4.0
 </div>
 
 >[!IMPORTANT]
->If you wish to "reactivate" this repo and maintain it feel free to follow the process described here: [Reactivation Guidelines](https://eclipse-tractusx.github.io/docs/release/trg-7/trg-7-09#reactivation-guidelines). It was deprecated because it was unmaintained and the security of this repository depenedencies could not be maintained. It is possible that other repositories/products like [industry-core-hub](https://github.com/eclipse-tractusx/industry-core-hub) provide alternatives for DPP creation and consumption in Tractus-X.
+>If you wish to "reactivate" this repo and maintain it feel free to follow the process described here: [Reactivation Guidelines](https://eclipse-tractusx.github.io/docs/release/trg-7/trg-7-09#reactivation-guidelines). It was deprecated because it was unmaintained and the security of this repository depenedencies could not be maintained. It is possible that other repositories/products like [industry-core-hub](https://github.com/eclipse-tractusx/industry-core-hub) provide alternatives for DPP creation and consumption in Tractus-X. This deprecation is only valid for the code, anything that has do do with the use case DPP is valid until the standards or KITs like [EcoPass KIT](https://eclipse-tractusx.github.io/docs-kits/next/kits/eco-pass-kit/adoption-view) get deprecated.
+
+>[!NOTE]
+> The DPP Verification documentation was transfered to a KIT called [Data Trust & Security KIT](https://eclipse-tractusx.github.io/docs-kits/next/kits/data-trust-and-security-kit/adoption-view) and is also there referenced as a [success story]().
 
 
 [![Contributors][contributors-shield]][contributors-url]
@@ -188,6 +191,7 @@ As for any pre-built image usage, it is the image user's responsibility to ensur
 [license-url-non-code]: https://github.com/eclipse-tractusx/digital-product-pass/blob/main/LICENSE_non-code
 [release-shield]: https://img.shields.io/github/v/release/eclipse-tractusx/digital-product-pass.svg?style=for-the-badge
 [release-url]: https://github.com/eclipse-tractusx/digital-product-pass/releases
+
 
 
 

@@ -20,6 +20,17 @@ SPDX-License-Identifier: CC-BY-4.0
 #######################################################################
 -->
 
+<div align="center">
+  <hr style="border:1px solid red;width:80%;margin:20px 0;">
+
+  <h1 style="color:red;">🚨 THIS TUTORIAL IS DEPRECATED 🚨</h1>
+  <h2 style="color:red;">Please see the latest docs here:</h2>
+  <a href="https://github.com/eclipse-tractusx/tutorial-resources/tree/main/dpp-tutorial">
+    👉 https://github.com/eclipse-tractusx/tutorial-resources/tree/main/dpp-tutorial
+  </a>
+  <br><br><br>
+</div>
+
 <div align=right><img height=200 src="../docs/media/dpp-tx-logo.png"/>&nbsp;&nbsp;<h1>Tractus-X​ Digital Product Passport​ Workstream​</h1><h4>Third Tractus-X Community Days - 5,6 December 2024 - Stuttgart</h4></div>
 
 
@@ -248,4 +259,5 @@ This work is licensed under the [CC-BY-4.0](https://creativecommons.org/licenses
 - SPDX-FileCopyrightText: 2024 BMW AG
 - SPDX-FileCopyrightText: 2024 CGI Deutschland B.V. & Co. KG
 - SPDX-FileCopyrightText: 2024 Contributors to the Eclipse Foundation
+
 - Source URL: https://github.com/eclipse-tractusx/digital-product-pass

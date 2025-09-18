@@ -33,7 +33,7 @@ SPDX-License-Identifier: CC-BY-4.0
 </div>
 
 > [!WARNING]
-> Not all the documentation was migrated to the Data Trust & Security KIT, this documentation was a PoC developer during the first Catena-X consortia, and can be used to verify and validate DPP contents. The Data Trust & Security gets inspired on this PoC and scales for all the Aspect Models in Tractus-X the posibility to do Verification and Validation of data (ex, PCF, Certificates, etc). More information about this PoC can also be found in the [Data Trust & Security KIT DPP Verification Success Story](https://eclipse-tractusx.github.io/docs-kits/next/kits/data-trust-and-security-kit/success-stories/dpp-verification-success-story)
+> Not all the documentation was migrated to the Data Trust & Security KIT, this documentation was a PoC developed during the first Catena-X consortia, and can be used to verify and validate DPP contents. The Data Trust & Security gets inspired on this PoC and scales for all the Aspect Models in Tractus-X the possibility to do Verification and Validation of data (ex, PCF, Certificates, etc). More information about this PoC can also be found in the [Data Trust & Security KIT DPP Verification Success Story](https://eclipse-tractusx.github.io/docs-kits/next/kits/data-trust-and-security-kit/success-stories/dpp-verification-success-story)
 
 <div align="center">
   <img alt="DPP Verification Logo" src="./resources/verification-logo.png" width="350" height="350">
